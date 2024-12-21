@@ -44,4 +44,26 @@ public class BusesBDD {
 		
 		return buses;
 	}
+	
+	public void insertar(Buses bus) throws KrakeDevException{
+		Connection con=null;
+		PreparedStatement ps=null;
+		try {
+			con=ConexionBDD.obtenerConexion();
+			ps=con.prepareStatement("insert into buses (bus_codigo, bus_cantidad) "
+					+ "values (?, ?);");
+			ps.setInt(1, bus.getBus_codigo());
+			ps.setInt(2, bus.getBus_cantidad());
+
+			ps.executeUpdate();
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al insertar el nuevo bus. Detalle: "+e.getMessage());
+		}
+	}
+	
+	
 }
