@@ -10,7 +10,7 @@ export default function App() {
   return (
     <NavigationContainer >
       <StackPartidos.Navigator initialRouteName='InicioNav'>
-        <StackPartidos.Screen name="InicioNav"  component={Inicio} options={{ title: 'Gestion Buses', headerTitleAlign: 'center'}}/>
+        <StackPartidos.Screen name="InicioNav"  component={BusListScreen} options={{ title: 'Gestion Buses', headerTitleAlign: 'center'}}/>
         <StackPartidos.Screen name="FormBusesNav"  component={FormBuses} options={{ title: 'Formulario Buses', headerTitleAlign: 'center'}}/>
       </StackPartidos.Navigator>
     </NavigationContainer>
