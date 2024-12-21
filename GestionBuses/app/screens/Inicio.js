@@ -6,7 +6,7 @@ export const Inicio = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-          <Text style={styles.bienvenida}>Bienvenidos</Text>
+          <Text style={styles.bienvenida}>Bienvenidoss</Text>
           <Button
             title='Lista de buses'
             buttonStyle={styles.ListaBoton}
