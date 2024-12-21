@@ -15,68 +15,23 @@ export const BusListScreen = () => {
     } else {
       addBus({ numero: txtNumero, capacidad: txtCapacidad });
     }
-    clearForm();
   };
 
-  const clearForm = () => {
-    setTxtNumero('');
-    setTxtCapacidad('');
-    setIsEditing(false);
-    setSelectedIndex(-1);
-  };
-
-  const handleEditBus = (index, bus) => {
-    setTxtNumero(bus.numero);
-    setTxtCapacidad(bus.capacidad);
-    setIsEditing(true);
-    setSelectedIndex(index);
-  };
-
-  const handleDeleteBus = (index) => {
-    buses.splice(index, 1);
-    clearForm();
-  };
-
-  const renderBusItem = ({ item, index }) => (
+  const renderBusItem = ({ item }) => (
     <View style={styles.busItem}>
       <View style={styles.busDetails}>
         <Text style={styles.textMain}>Número: {item.numero}</Text>
         <Text style={styles.textSecondary}>Capacidad: {item.capacidad}</Text>
-      </View>
-      <View style={styles.busActions}>
-        <Button title="Editar" color="green" onPress={() => handleEditBus(index, item)} />
-        <Button title="Eliminar" color="red" onPress={() => handleDeleteBus(index)} />
       </View>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerArea}>
-        <Text style={styles.title}>Gestión de Buses</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Número de Bus"
-          value={txtNumero}
-          onChangeText={setTxtNumero}
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Capacidad"
-          value={txtCapacidad}
-          onChangeText={setTxtCapacidad}
-          keyboardType="numeric"
-        />
-        <View style={styles.actionButtons}>
-          <Button title={isEditing ? "Actualizar" : "Guardar"} onPress={handleSaveBus} />
-          <Button title="Nuevo" onPress={clearForm} />
-        </View>
-      </View>
       <View style={styles.listArea}>
         <FlatList
           data={buses}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={renderBusItem}
         />
       </View>
@@ -93,33 +48,11 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#f5f5f5',
   },
-  headerArea: {
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
-  },
   listArea: {
     flex: 1,
   },
   busItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 10,
@@ -129,12 +62,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   busDetails: {
-    flex: 3,
-  },
-  busActions: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   textMain: {
     fontSize: 18,
@@ -149,3 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default BusListScreen;
