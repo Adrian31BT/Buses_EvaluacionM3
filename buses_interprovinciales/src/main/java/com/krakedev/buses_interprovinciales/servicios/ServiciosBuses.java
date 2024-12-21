@@ -14,6 +14,7 @@ import com.krakedev.buses_interprovinciales.excepciones.KrakeDevException;
 
 @Path("buses")
 public class ServiciosBuses {
+	
 	@Path("obtenerBuses")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -27,5 +28,19 @@ public class ServiciosBuses {
 			e.printStackTrace();
 			return Response.serverError().build();
 		}	
+	}
+	
+	@Path("crearBus")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response crear(Buses bus){
+		BusesBDD busBDD=new BusesBDD();
+		try {
+			busBDD.insertar(bus);;
+			return Response.ok().build();
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
 	}
 }
