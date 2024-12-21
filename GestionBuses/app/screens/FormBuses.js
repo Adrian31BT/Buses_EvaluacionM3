@@ -3,6 +3,7 @@ import { Input, Button } from '@rneui/base'
 import { useState } from 'react';
 import { insertarBuses } from '../services/ServicesBuses'
 
+
 export const FormBuses = ({navigation, route}) => {
 
     const [bus_cantidad, setBusCantidad] = useState(""); 

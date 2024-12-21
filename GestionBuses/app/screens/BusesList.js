@@ -1,75 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import {  View,  Text,  TextInput,  TouchableOpacity,  StyleSheet,  Alert,} from 'react-native';
-import { useBus } from '../context/BusContext';
+import React, { useState } from 'react';
+import { View, Text, FlatList, TextInput, Button, StyleSheet } from 'react-native';
+import { FormBuses} from '../FormBuses';
 
-export const BusFormScreen = ({ navigation, route }) => {
-  const { addBus, updateBus } = useBus();
-  const editingBus = route.params?.bus;
-  const editingIndex = route.params?.index;
+export const BusListScreen = () => {
+  const { buses, addBus, updateBus } = useBus();
 
-  const [busData, setBusData] = useState({
-    numero: '',
-    capacidad: '',
-  });
+  const [txtNumero, setTxtNumero] = useState('');
+  const [txtCapacidad, setTxtCapacidad] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  useEffect(() => {
-    if (editingBus) {
-      setBusData({
-        numero: editingBus.numero,
-        capacidad: editingBus.capacidad,
-      });
-    }
-  }, [editingBus]);
-
-  const validarFormulario = () => {
-    if (!busData.numero || !busData.capacidad) {
-      Alert.alert('Error', 'Todos los campos son obligatorios');
-      return false;
-    }
-    return true;
-  };
-
-  const handleGuardar = () => {
-    if (!validarFormulario()) return;
-
-    if (editingBus) {
-      updateBus(editingIndex, busData);
+  const handleSaveBus = () => {
+    if (isEditing && selectedIndex >= 0) {
+      updateBus(selectedIndex, { numero: txtNumero, capacidad: txtCapacidad });
     } else {
-      addBus(busData);
+      addBus({ numero: txtNumero, capacidad: txtCapacidad });
     }
-    navigation.goBack();
+    clearForm();
   };
+
+  const clearForm = () => {
+    setTxtNumero('');
+    setTxtCapacidad('');
+    setIsEditing(false);
+    setSelectedIndex(-1);
+  };
+
+  const handleEditBus = (index, bus) => {
+    setTxtNumero(bus.numero);
+    setTxtCapacidad(bus.capacidad);
+    setIsEditing(true);
+    setSelectedIndex(index);
+  };
+
+  const handleDeleteBus = (index) => {
+    buses.splice(index, 1);
+    clearForm();
+  };
+
+  const renderBusItem = ({ item, index }) => (
+    <View style={styles.busItem}>
+      <View style={styles.busDetails}>
+        <Text style={styles.textMain}>Número: {item.numero}</Text>
+        <Text style={styles.textSecondary}>Capacidad: {item.capacidad}</Text>
+      </View>
+      <View style={styles.busActions}>
+        <Button title="Editar" color="green" onPress={() => handleEditBus(index, item)} />
+        <Button title="Eliminar" color="red" onPress={() => handleDeleteBus(index)} />
+      </View>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Número de Bus"
-        value={busData.numero}
-        keyboardType="numeric"
-        onChangeText={(text) => setBusData({ ...busData, numero: text })}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Capacidad"
-        value={busData.capacidad}
-        keyboardType="numeric"
-        onChangeText={(text) => setBusData({ ...busData, capacidad: text })}
-      />
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.cancelButton]}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.buttonText}>Cancelar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.saveButton]}
-          onPress={handleGuardar}
-        >
-          <Text style={styles.buttonText}>Guardar</Text>
-        </TouchableOpacity>
+      <View style={styles.headerArea}>
+        <Text style={styles.title}>Gestión de Buses</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Número de Bus"
+          value={txtNumero}
+          onChangeText={setTxtNumero}
+          keyboardType="numeric"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Capacidad"
+          value={txtCapacidad}
+          onChangeText={setTxtCapacidad}
+          keyboardType="numeric"
+        />
+        <View style={styles.actionButtons}>
+          <Button title={isEditing ? "Actualizar" : "Guardar"} onPress={handleSaveBus} />
+          <Button title="Nuevo" onPress={clearForm} />
+        </View>
+      </View>
+      <View style={styles.listArea}>
+        <FlatList
+          data={buses}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderBusItem}
+        />
+      </View>
+      <View style={styles.footerArea}>
+        <Text>Total de Buses: {buses.length}</Text>
       </View>
     </View>
   );
@@ -78,37 +91,62 @@ export const BusFormScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 10,
     backgroundColor: '#f5f5f5',
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
+  headerArea: {
+    marginBottom: 20,
   },
-  button: {
-    padding: 12,
-    borderRadius: 5,
-    minWidth: 120,
-  },
-  buttonText: {
-    color: 'white',
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
     textAlign: 'center',
-    fontSize: 16,
-  },
-  saveButton: {
-    backgroundColor: '#4CAF50',
-  },
-  cancelButton: {
-    backgroundColor: '#757575',
   },
   input: {
-    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  listArea: {
+    flex: 1,
+  },
+  busItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 5,
-    padding: 12,
-    marginBottom: 15,
-    fontSize: 16,
+  },
+  busDetails: {
+    flex: 3,
+  },
+  busActions: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  textMain: {
+    fontSize: 18,
+  },
+  textSecondary: {
+    fontSize: 14,
+    color: 'gray',
+  },
+  footerArea: {
+    padding: 10,
+    alignItems: 'center',
   },
 });
+

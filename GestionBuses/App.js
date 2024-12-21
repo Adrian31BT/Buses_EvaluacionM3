@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Inicio } from './app/screens/Inicio'
+import { BusListScreen } from './app/screens/BusesList';
+import { FormBuses } from './app/screens/FormBuses';
 
 export default function App() {
   const StackPartidos = createNativeStackNavigator(); 
