@@ -18,7 +18,7 @@ export const Inicio = ({navigation}) => {
             title='Lista de rutas'
             buttonStyle={styles.ListaBoton}
             onPress={() => {
-                /* navigation.navigate("ListaPartidosNav", {usuario:usuario}); */
+              navigation.navigate("RutaListScreen"); 
             }}
           />
           <Button
