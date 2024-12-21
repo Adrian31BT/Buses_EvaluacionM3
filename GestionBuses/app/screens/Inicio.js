@@ -11,7 +11,7 @@ export const Inicio = ({navigation}) => {
             title='Lista de buses'
             buttonStyle={styles.ListaBoton}
             onPress={() => {
-                /* navigation.navigate("ListaPartidosNav", {usuario:usuario}); */
+                navigation.navigate("ListaBusesNav"); 
             }}
           />
           <Button
@@ -19,6 +19,20 @@ export const Inicio = ({navigation}) => {
             buttonStyle={styles.ListaBoton}
             onPress={() => {
                 /* navigation.navigate("ListaPartidosNav", {usuario:usuario}); */
+            }}
+          />
+          <Button
+            title='Formulario Buses'
+            buttonStyle={styles.ListaBoton}
+            onPress={() => {
+                navigation.navigate("FormBusesNav");
+            }}
+          />
+          <Button
+            title='Formulario Rutas'
+            buttonStyle={styles.ListaBoton}
+            onPress={() => {
+                navigation.navigate("FormRutasNav"); 
             }}
           />
         </View>

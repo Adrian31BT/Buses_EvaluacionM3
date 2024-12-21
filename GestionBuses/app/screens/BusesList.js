@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TextInput, Button, StyleSheet } from 'react-native';
-import { FormBuses} from '../FormBuses';
 
 export const BusListScreen = () => {
-  const { buses, addBus, updateBus } = useBus();
-
+  const { buses, addBus, updateBus } = useState();
+  
   const [txtNumero, setTxtNumero] = useState('');
   const [txtCapacidad, setTxtCapacidad] = useState('');
   const [isEditing, setIsEditing] = useState(false);

@@ -6,6 +6,7 @@ import { insertarBuses } from '../services/ServicesBuses'
 
 export const FormBuses = ({navigation, route}) => {
 
+    const [bus_codigo, setBusCodigo] = useState(""); 
     const [bus_cantidad, setBusCantidad] = useState(""); 
     const [errorCantidad, setErrorCantidad] = useState();
 
@@ -15,9 +16,9 @@ export const FormBuses = ({navigation, route}) => {
         setErrorCantidad(null);
         validate();
         if(!hasErrors){
-            insertarBuses({bus_cantidad:bus_cantidad}, ()=>{Alert.alert("CONFIRMACION","Se ha ingresado el bus");});
+            insertarBuses({bus_codigo:bus_codigo, bus_cantidad:bus_cantidad}, ()=>{Alert.alert("CONFIRMACION","Se ha ingresado el bus");});
             navigation.goBack();
-            route.params.fnRefresh();
+            /* route.params.fnRefresh(); */
         } 
     }
 
@@ -26,9 +27,9 @@ export const FormBuses = ({navigation, route}) => {
             setErrorCantidad("Debe ingresar una cantidad");
             hasErrors = true;
         }
-        let bus_cantidad = parseInt(bus_cantidad);
+        let bus_cantidadC = parseInt(bus_cantidad);
         
-        if(bus_cantidad == null || isNaN(bus_cantidad) || bus_cantidad <= 0){
+        if(bus_cantidadC == null || isNaN(bus_cantidadC)){
             setErrorCantidad("Debe ingresar cantidad maxima de pasajeros entre 1 o mas");
             hasErrors = true;
         }
@@ -36,6 +37,12 @@ export const FormBuses = ({navigation, route}) => {
 
     return <View style={styles.container}>
         <View style={styles.busCantidad}>
+            <Input style={styles.input}
+                value={bus_codigo}
+                onChangeText={setBusCodigo}
+                placeholder={'1 o más'}
+                label={'Ingresar codigo'}
+            />
             <Input style={styles.input}
                 value={bus_cantidad}
                 onChangeText={setBusCantidad}

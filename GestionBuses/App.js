@@ -2,17 +2,22 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Inicio } from './app/screens/Inicio'
-import { BusListScreen } from './app/screens/BusesList';
 import { FormBuses } from './app/screens/FormBuses';
+import { BusListScreen } from './app/screens/BusesList';
+import { RutasForm } from './app/screens/RutasForm';
+
 
 export default function App() {
-  const StackPartidos = createNativeStackNavigator(); 
+  const StackBuses = createNativeStackNavigator(); 
   return (
     <NavigationContainer >
-      <StackPartidos.Navigator initialRouteName='InicioNav'>
-        <StackPartidos.Screen name="InicioNav"  component={Inicio} options={{ title: 'Gestion Buses', headerTitleAlign: 'center'}}/>
-        <StackPartidos.Screen name="FormBusesNav"  component={FormBuses} options={{ title: 'Formulario Buses', headerTitleAlign: 'center'}}/>
-      </StackPartidos.Navigator>
+      <StackBuses.Navigator initialRouteName='InicioNav'>
+        <StackBuses.Screen name="InicioNav"  component={Inicio} options={{ title: 'Gestion Buses', headerTitleAlign: 'center'}}/>
+        <StackBuses.Screen name="FormBusesNav"  component={FormBuses} options={{ title: 'Formulario Buses', headerTitleAlign: 'center'}}/>
+        <StackBuses.Screen name="ListaBusesNav"  component={BusListScreen} options={{ title: 'Lista Buses', headerTitleAlign: 'center'}}/>
+        <StackBuses.Screen name="FormRutasNav"  component={RutasForm} options={{ title: 'Formulario Rutas', headerTitleAlign: 'center'}}/>
+       {/*  <StackBuses.Screen name="ListaRutassNav"  component={BusListScreen} options={{ title: 'Lista Rutas', headerTitleAlign: 'center'}}/> */}
+      </StackBuses.Navigator>
     </NavigationContainer>
   );
 }
