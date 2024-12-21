@@ -56,4 +56,29 @@ public class RutasBDD {
 		
 		return rutas;
 	}
+	
+	public void insertarRuta(Rutas ruta) throws KrakeDevException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement(
+					"insert into rutas (rut_codigo, rut_ciudadOrigen, rut_ciudadDestino, rut_horaSalida, rut_horaLlegada, bus_codigo) values (?, ?, ?, ?, ?, ?);");
+			ps.setString(1, ruta.getRut_codigo());
+			ps.setString(2, ruta.getRut_ciudadOrigen());
+			ps.setString(3, ruta.getRut_ciudadDestino());
+			ps.setTime(4, ruta.getRut_horaSalida());
+			ps.setTime(5, ruta.getRut_horaLlegada());
+			ps.setInt(6, ruta.getBus().getBus_codigo());
+
+			ps.executeUpdate();
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al insertar la ruta, detalle: "+e.getMessage());
+		}
+	
+	}
 }
