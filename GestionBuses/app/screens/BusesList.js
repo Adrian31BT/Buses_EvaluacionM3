@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 
 export const BusListScreen = () => {
-  const { buses, addBus, updateBus } = useState();
+  const [buses, setBuses] = useState([]);
   
-  const [txtNumero, setTxtNumero] = useState('');
-  const [txtCapacidad, setTxtCapacidad] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  useEffect(() => {
+    fetchBuses();
+  }, []);
 
-  const handleSaveBus = () => {
-    if (isEditing && selectedIndex >= 0) {
-      updateBus(selectedIndex, { numero: txtNumero, capacidad: txtCapacidad });
-    } else {
-      addBus({ numero: txtNumero, capacidad: txtCapacidad });
+  const fetchBuses = async () => {
+    try {
+      const response = await fetch("http://192.168.3.201:8080/buses_interprovinciales-1.0.0/rest/buses/obtenerBuses");
+      const data = await response.json();
+      setBuses(data);
+    } catch (error) {
+      console.error('Error fetching buses:', error);
     }
   };
 
   const renderBusItem = ({ item }) => (
     <View style={styles.busItem}>
       <View style={styles.busDetails}>
-        <Text style={styles.textMain}>Número: {item.numero}</Text>
-        <Text style={styles.textSecondary}>Capacidad: {item.capacidad}</Text>
+        <Text style={styles.textMain}>Número: {item.bus_codigo}</Text>
+        <Text style={styles.textSecondary}>Capacidad: {item.bus_cantidad}</Text>
       </View>
     </View>
   );
@@ -31,7 +32,7 @@ export const BusListScreen = () => {
       <View style={styles.listArea}>
         <FlatList
           data={buses}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.bus_codigo}
           renderItem={renderBusItem}
         />
       </View>

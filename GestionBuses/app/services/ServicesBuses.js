@@ -19,22 +19,3 @@ export const insertarBuses = (post, fnExito) => {
     });
     fnExito();
   };
-
-  let buses = [];
-
-export const getBuses= () => {
-  buses = [];
-    fetch("http://192.168.3.201:8080/buses_interprovinciales-1.0.0/rest/buses/crearBus")
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      json.forEach((item)=>{
-        buses.push(item);
-        console.log(buses);
-      })
-    });
-    return buses;
-};
-
-

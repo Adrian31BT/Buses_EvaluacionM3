@@ -17,5 +17,6 @@ export const createRuta = (ruta, fnExito) => {
     }
     fetch("http://192.168.3.201:8080/buses_interprovinciales-1.0.0/rest/rutas/insertarRutas", config)
     .then((response) => { return response.json() })
-    .then((json) => { console.log(json); fnExito(); });
+    .then((json) => { console.log(json);});
+    fnExito();
 }
