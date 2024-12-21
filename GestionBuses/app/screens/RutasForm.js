@@ -21,7 +21,6 @@ export const RutasForm = () => {
                 hSalida: horaSalida,
                 hLlegada: horaLlegada,
                 codBus: codigoBus,
-
             },
             ()=>{
                 Alert.alert("CONFIRMACION","Se ha ingresado una nueva Ruta");
