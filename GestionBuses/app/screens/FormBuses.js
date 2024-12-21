@@ -1,7 +1,7 @@
 import { StyleSheet, View, Alert } from 'react-native';
 import { Input, Button } from '@rneui/base'
 import { useState } from 'react';
-import { insertPronosticos } from '../servicios/ServicioPronosticos'
+import { insertarBuses } from '../services/ServicesBuses'
 
 export const FormBuses = ({navigation, route}) => {
 
